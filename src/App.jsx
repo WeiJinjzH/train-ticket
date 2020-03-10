@@ -1,26 +1,32 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import './App.css';
 
-const About =  lazy(() => import(/* webpackChunkName: "about" */'./About.jsx'))
-
-class App extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      hasError: false,
+class Foo extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.name === this.props.name) {
+      return false;
     }
-  }
-  componentDidCatch() {
-    this.setState({ hasError: true })
+    return true;
   }
   render() {
-    if (this.state.hasError) {
-      return <div>error</div>
+    console.log('Foo render')
+    return 1
+  }
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      count: 0,
     }
+  }
+  render() {
     return (
-      <Suspense fallback={<div>loading</div>}>
-        <About />
-      </Suspense>
+      <div>
+        <button type="button" onClick={() => this.setState({ count: this.state.count + 1 })}>Add</button>
+        <Foo name="mike" />
+      </div>
     )
   }
 }
