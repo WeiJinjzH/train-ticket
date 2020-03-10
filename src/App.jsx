@@ -1,25 +1,33 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, memo } from 'react';
 import './App.css';
 
-class Foo extends PureComponent {
-  render() {
+const Foo = memo(function Foo(props) {
     console.log('Foo render')
-    return 1
-  }
-}
+return <div>{props.person.age}</div>
+})
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       count: 0,
+      person: {
+        age: 0,
+      },
     }
   }
+  callback = () => {
+
+  }
   render() {
+    const { person } = this.state
     return (
       <div>
-        <button type="button" onClick={() => this.setState({ count: this.state.count + 1 })}>Add</button>
-        <Foo name="mike" />
+        <button type="button" onClick={() => {
+          person.age ++
+          this.setState({ person })
+        }}>Add</button>
+        <Foo name="mike" person={person} cb={this.callback} />
       </div>
     )
   }
