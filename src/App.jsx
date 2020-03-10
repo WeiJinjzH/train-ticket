@@ -1,13 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import './App.css';
 
-class Foo extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.name === this.props.name) {
-      return false;
-    }
-    return true;
-  }
+class Foo extends PureComponent {
   render() {
     console.log('Foo render')
     return 1
