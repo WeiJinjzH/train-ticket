@@ -5,18 +5,13 @@ const BetteryContext = createContext()
 const OnlineContext = createContext()
 
 class Leaf extends Component {
+  static contextType = BetteryContext
+
   render() {
-    return (<BetteryContext.Consumer>
-      {
-        bettery => (
-          <OnlineContext.Consumer>
-            {
-              online => <h1>bettery: {bettery}, online: {String(online)}</h1>
-            }
-          </OnlineContext.Consumer>
+    const bettery = this.context
+    return (
+          <h1>bettery: {bettery}</h1>
         )
-      }
-    </BetteryContext.Consumer>)
   }
 }
 
