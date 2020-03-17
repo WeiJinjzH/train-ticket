@@ -1,49 +1,28 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useMemo } from 'react';
 
-const CountContext = createContext()
-
-class Foo extends React.Component {
-  render() {
-    return (
-      <CountContext.Consumer>
-        {
-          count => <h1>{count}</h1>
-        }
-      </CountContext.Consumer>
-    )
-  }
-}
-
-class Bar extends React.Component {
-  static contextType = CountContext
-  render() {
-    const count = this.context
-    return (
-      <h1>{count}</h1>
-    )
-  }
-}
-
-function Counter() {
-  const count = useContext(CountContext)
+function Counter(props) {
   return (
-    <h1>{count}</h1>
+    <h1>{props.count}</h1>
   )
 }
 
 function App() {
   const [ count, setCount ] = useState(0)
 
+  const double = useMemo(() => {
+    return count * 2
+  }, [count === 3])
+
+  const half = useMemo(() => {
+    return double / 4
+  }, [double])
+
   return (
     <div>
       <button type="button" onClick={() => setCount(count + 1)}>
-        Add {count}
+        Add {count} Double {double} half {half}
       </button>
-      <CountContext.Provider value={count}>
-        <Foo />
-        <Bar />
-        <Counter />
-      </CountContext.Provider>
+      <Counter count={count} />
     </div>
   )
 }
